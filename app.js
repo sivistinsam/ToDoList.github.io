@@ -12,21 +12,11 @@ const cancel = document.querySelector(".fa-xmark");
 const strike = document.querySelector(".fa-strikethrough");
 // Strike through icon
 
-input.addEventListener("keyup", () => {
-  // When keyup event is triggered, it checks if there's any value entered or not and
-  if (input.value.trim() != 0) {
-    // If yes then create an li tag with text as what ever was written by the user
-    addBtn.classList.add("active");
-  } else {
-    // Else remove active class of add btn so that no new list item gets added without entering anything
-    addBtn.classList.remove("active");
-  }
-});
 // creating array for storing user input todos
 let newTaskList = [];
 // Creating a function to add all the input which was entered by the user
 function addList() {
-  let pos = tasks.firstElementChild;
+  let element = tasks.firstElementChild;
   //   This if conditon will check if input field is not empty then it will proceed further to add a task
   if (input.value.trim() != 0) {
     // Creating a new div to display the todo items
@@ -42,12 +32,11 @@ function addList() {
             </div>
         `;
     // Pushing newly created object into our array
-    if (pos == null) {
-      // checking if pos is empty or not
+    if (element == null) {
       tasks.appendChild(newTask);
     } else {
       // adding after first child node
-      tasks.insertBefore(newTask, pos);
+      tasks.insertBefore(newTask, element);
     }
     // Clearing out the input box once done
 
@@ -61,11 +50,25 @@ function addList() {
     alert("Please enter a task :)");
   }
 }
+
 // creating function for counting the how many list is present in todo
 
 function count() {
   taskCount.innerHTML = newTaskList.length;
 }
+
+// Created a function to make add button active when something is written and inactive when input field is empty
+input.addEventListener("keyup", () => {
+    // When keyup event is triggered, it checks if there's any value entered or not and
+    if (input.value.trim() != 0) {
+      // If yes then it will make the add button active 
+      addBtn.classList.add("active");
+    } else {
+      // Else remove active class of add btn so that no new list item gets added without entering anything
+      addBtn.classList.remove("active");
+    }
+  });
+
 // Function to handle click event on Add button
 
 addBtn.addEventListener("click", () => {
@@ -77,7 +80,7 @@ input.addEventListener("keyup", (event) => {
     addList();
   }
 });
-// Strikethrough functionality starts here
+//function for deleting the todos item
 tasks.addEventListener("click", (e) => {
   if (e.target.classList.contains("fa-xmark")) {
     e.target.parentElement.parentElement.remove();
@@ -85,7 +88,7 @@ tasks.addEventListener("click", (e) => {
     count();
   }
 });
-// Checking completed items and changing their color accordingly
+// Strikethrough functionality starts here
 tasks.addEventListener("click", (e) => {
   if (e.target.classList.contains("fa-strikethrough")) {
     e.target.parentElement.parentElement.classList.toggle("completed");
